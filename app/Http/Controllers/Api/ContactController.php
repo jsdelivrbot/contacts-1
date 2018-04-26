@@ -89,8 +89,8 @@ class ContactController extends Controller
     {
         $contactRepository->deleteContact($contactId);
         return response()->json()->setStatusCode(
-            Response::HTTP_NOT_FOUND,
-            Response::$statusTexts[Response::HTTP_NOT_FOUND]
+            Response::HTTP_OK,
+            Response::$statusTexts[Response::HTTP_OK]
         );
     }
 

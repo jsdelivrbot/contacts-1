@@ -23,20 +23,18 @@
                </tr>
                </thead>
                <tbody>
-                   <tr  v-for="contact in contacts" :key="contact.id">
+                   <tr  v-for="contact, index in contacts" :key="contact.id">
+                           <td>{{ contact.first_name }} {{ contact.last_name }}</td>
+                           <td>{{ contact.email }}</td>
+                           <td>{{ contact.telephone }}</td>
+                           <td>{{ contact.contact_type }}</td>
+                           <td>
 
-
-                       <td>{{ contact.first_name }} {{ contact.last_name }}</td>
-                       <td>{{ contact.email }}</td>
-                       <td>{{ contact.telephone }}</td>
-                       <td>{{ contact.contact_type }}</td>
-                       <td>
-                           <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-                           <a href="#" @click="del"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                       </td>
-                   </tr>
-               </tbody>
-           </table>
+                               <a href="#" class="delete" v-on:click="deleteEntry(contact.id, index)"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                           </td>
+                       </tr>
+                   </tbody>
+               </table>
 
        </div>
    </div>
@@ -75,17 +73,17 @@
                             console.log(err)
                         })
                 },
-                 del() {
-                        this.$emit('delete', this.id);
-                 },
-                delete(id) {
-                    axios.delete('/api/contacts/${id}')
-                        .then(( res ) => {
-
-                        })
-                        .catch((err) => {
-                            console.log('failed')
-                        })
+                 deleteEntry(id, index) {
+                    if (confirm("Do you really want to delete this contact?")) {
+                        var app = this;
+                        axios.delete('/api/contacts/' + id)
+                            .then(function (resp) {
+                                app.contacts.splice(index, 1);
+                            })
+                            .catch(function (resp) {
+                                alert("Could not delete the contact");
+                            });
+                    }
                 }
             }
         }

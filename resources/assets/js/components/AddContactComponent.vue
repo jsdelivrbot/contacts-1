@@ -63,8 +63,3 @@
         }
     }
 </script>
-<style>
-    body, task-list{
-        padding-top: 20px;
-    }
-</style>
